@@ -1,10 +1,10 @@
 class PostsController < ApplicationController
 
   def index
-    if params[:author_id]
-      @posts = Author.find(params[:author_id]).posts
+    if params[:author_id] && !Author.exists?(params[:author_id])
+      redirect_to authors_path, alert: "Author not found."
     else
-      @posts = Post.all
+      @posts = Post.new(author_id: params[:author_id])
     end
   end
 
